@@ -20,6 +20,7 @@
   "homepage": "https://github.com/aarce96/crispy-adventure#readme",
   "dependencies": {
     "express": "^4.18.2",
+    "inquirer": "^8.2.4",
     "uuid": "^9.0.0"
   }
 }
