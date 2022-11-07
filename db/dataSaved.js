@@ -1,16 +1,16 @@
 const fs = require("fs");
 const util = require("util");
+const uuid = require("uuid");
 
-const writeNote = util.promisify(fs.writeFile);
 const readNote = util.promisify(fs.readFile);
-
+const writeNote = util.promisify(fs.writeFile);
 class Save {
   write(note) {
-    return writeNote("./db/db.json", JSON.stringify(note));
+    return writeNote("db/db.json", JSON.stringify(note));
   }
 
   read() {
-    return readNote("./db/db.json", "utf8");
+    return readNote("db/db.json", "utf8");
   }
 
   getNotes() {
@@ -30,10 +30,11 @@ class Save {
     if (!title || !text) {
       throw new Error("Both title and text can not be blank");
     }
-
+    const newNote = { title, text, id: uuid() };
     return this.getNotes()
-      .then((notes) => [...notes])
-      .then((updateNotes) => this.write(updateNotes));
+      .then((notes) => [...notes, newNote])
+      .then((updateNotes) => this.write(updateNotes))
+      .then(() => newNote);
   }
 }
 
